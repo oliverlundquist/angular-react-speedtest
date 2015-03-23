@@ -1,0 +1,1 @@
+node ./node_modules/react-tools/bin/jsx --extension jsx ./src/ ./public/scripts/
