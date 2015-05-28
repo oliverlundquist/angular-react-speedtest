@@ -41,7 +41,7 @@ app.get('/ordershtml', function (req, res, next) {
 
             output += '<div>';
             output += '<script>console.time("renderList");</script>';
-            output += '<table border="1">';
+            output += '<table border="1" id="daCoolTable">';
             __res.forEach(function (___res) {
                 //set placeholders
                 if ( ! ___res.payment) { ___res.payment = {}; }
@@ -76,7 +76,7 @@ app.get('/ordershtml', function (req, res, next) {
                 ___res.order_status.status_name = ___res.order_status.status_name ? ___res.order_status.status_name : '';
 
                 //build output
-                output += '<tr>';
+                output += '<tr ng-click="vm.clicked()">';
                 output += '<td nowrap="nowrap">01: ' + (___res.customer.email) + '</td>';
                 output += '<td nowrap="nowrap">02: ' + (___res.colorme_id) + '</td>';
                 output += '<td nowrap="nowrap">03: ' + (___res.customer.name) + '</td>';
