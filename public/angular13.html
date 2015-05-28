@@ -3,7 +3,7 @@
 <head>
 	<title>angular speedtest</title>
 	<script src="/scripts/jquery-1.11.2.js"></script>
-	<script src="/scripts/angular.js"></script>
+	<script src="/scripts/angular13.js"></script>
 	<script src="/scripts/react.js"></script>
 	<script src="/scripts/JSXTransformer.js"></script>
 	<style>.tableBorder, .tableBorder tr, .tableBorder td { border:1px solid #000; }</style>
@@ -36,6 +36,9 @@
 				<td nowrap="nowrap">22: {{ ::order.returned_date ? order.returned_date : '' }}</td>
 				<td nowrap="nowrap">23: {{ ::order.exchanged_date ? order.exchanged_date : '' }}</td>
 				<td nowrap="nowrap">24: {{ ::order.order_status.status_name }}</td>
+				<td ng-if="$first"><script>console.time('renderList');</script></td>
+				<td ng-if="$last"><script>console.timeEnd('renderList');</script></td>
+				<td ng-if="$last"><script>console.timeEnd('requestCycle');</script></td>
 			</tr>
 		</table>
 	</div>
@@ -82,6 +85,8 @@
 
 					// 	return object;
 					// };
+
+					console.time('requestCycle');
 
 					$http.get('/orders').then(function (res) {
 						// var result = res.data.map(vm.filterData);

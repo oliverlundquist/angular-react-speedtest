@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app="OrderApp">
+<head>
+	<title>angular speedtest</title>
+	<script src="/scripts/jquery-1.11.2.js"></script>
+	<script src="/scripts/angular14.js"></script>
+	<script src="/scripts/react.js"></script>
+	<script src="/scripts/JSXTransformer.js"></script>
+	<style>.tableBorder, .tableBorder tr, .tableBorder td { border:1px solid #000; }</style>
+</head>
+<body>
+	<div ng-controller="OrderCtrl as vm">
+		<div ng-include="'/ordershtml'"></div>
+		<!-- <table border="1">
+			<tr ng-repeat="order in vm.orders track by order.colorme_id">
+				<td nowrap="nowrap">01: {{ ::order.customer.email }}</td>
+				<td nowrap="nowrap">02: {{ ::order.colorme_id }}</td>
+				<td nowrap="nowrap">03: {{ ::order.customer.name }}</td>
+				<td nowrap="nowrap">04: {{ ::order.order_date ? order.order_date : '' }}</td>
+				<td nowrap="nowrap">05: {{ ::order.payment.display_name }}</td>
+				<td nowrap="nowrap">06: {{ ::order.order_total.payment_fee }}</td>
+				<td nowrap="nowrap">07: {{ ::order.order_destinations[0].order_destination_total.shipping_fee }}</td>
+				<td nowrap="nowrap">08: {{ ::order.order_destinations[0].order_destination_total.wrapping_total }}</td>
+				<td nowrap="nowrap">09: {{ ::order.order_destinations[0].wrapping_type }}</td>
+				<td nowrap="nowrap">10: {{ ::order.order_destinations[0].message_card_name }}</td>
+				<td nowrap="nowrap">11: {{ ::order.order_destinations[0].message_card_message }}</td>
+				<td nowrap="nowrap">12: {{ ::order.order_destinations[0].memo }}</td>
+				<td nowrap="nowrap">13: {{ ::order.order_destinations[0].shipping_memo }}</td>
+				<td nowrap="nowrap">14: {{ ::order.order_destinations[0].noshi_memo }}</td>
+				<td nowrap="nowrap">15: {{ ::order.order_destinations[0].invoice }}</td>
+				<td nowrap="nowrap">16: {{ ::order.order_destinations[0].invoice_number }}</td>
+				<td nowrap="nowrap">17: {{ ::order.order_destinations[0].shipping_date ? order.order_destinations[0].shipping_date : '' }}</td>
+				<td nowrap="nowrap">18: {{ ::order.order_destinations[0].preferred_delivery_date ? order.order_destinations[0].preferred_delivery_date : '' }}</td>
+				<td nowrap="nowrap">19: {{ ::order.order_destinations[0].name }}</td>
+				<td nowrap="nowrap">20: {{ ::order.order_destinations[0].zipcode }}</td>
+				<td nowrap="nowrap">21: {{ ::order.order_total.total }}</td>
+				<td nowrap="nowrap">22: {{ ::order.returned_date ? order.returned_date : '' }}</td>
+				<td nowrap="nowrap">23: {{ ::order.exchanged_date ? order.exchanged_date : '' }}</td>
+				<td nowrap="nowrap">24: {{ ::order.order_status.status_name }}</td>
+				<td ng-if="$first"><script>console.time('renderList');</script></td>
+				<td ng-if="$last"><script>console.timeEnd('renderList');</script></td>
+				<td ng-if="$last"><script>console.timeEnd('requestCycle');</script></td>
+			</tr>
+		</table> -->
+	</div>
+	<script>
+		(function () {
+			angular.module('OrderApp', [])
+				.config(['$compileProvider', function ($compileProvider) {
+					$compileProvider.debugInfoEnabled(false);
+				}])
+				.controller('OrderCtrl', function ($http) {
+					var vm = this;
+					vm.orders = [];
+
+					// vm.filterData = function (array) {
+					// 	var object = {};
+					// 	object.customer = {};
+					// 	object.payment = {};
+					// 	object.order_total = {};
+					// 	object.order_destinations = [{ order_destination_total: {} }];
+					// 	object.order_total = {};
+					// 	object.order_status = {};
+
+					// 	object.customer.email = array.customer.email;
+					// 	object.colorme_id = array.colorme_id;
+					// 	object.customer.name = array.customer.name;
+					// 	object.order_date = array.order_date ? array.order_date : '';
+					// 	object.payment.display_name = array.payment.display_name;
+					// 	object.order_total.payment_fee = array.order_total.payment_fee;
+					// 	object.order_destinations[0].order_destination_total.shipping_fee = array.order_destinations[0].order_destination_total.shipping_fee;
+					// 	object.order_destinations[0].order_destination_total.wrapping_total = array.order_destinations[0].order_destination_total.wrapping_total;
+					// 	object.order_destinations[0].wrapping_type = array.order_destinations[0].wrapping_type;
+					// 	object.order_destinations[0].message_card_name = array.order_destinations[0].message_card_name;
+					// 	object.order_destinations[0].message_card_message = array.order_destinations[0].message_card_message;
+					// 	object.order_destinations[0].memo = array.order_destinations[0].memo;
+					// 	object.order_destinations[0].shipping_memo = array.order_destinations[0].shipping_memo;
+					// 	object.order_destinations[0].noshi_memo = array.order_destinations[0].noshi_memo;
+					// 	object.order_destinations[0].invoice = array.order_destinations[0].invoice;
+					// 	object.order_destinations[0].invoice_number = array.order_destinations[0].invoice_number;
+					// 	object.order_destinations[0].shipping_date = array.order_destinations[0].shipping_date ? array.order_destinations[0].shipping_date : '';
+					// 	object.order_destinations[0].preferred_delivery_date = array.order_destinations[0].preferred_delivery_date ? array.order_destinations[0].preferred_delivery_date : '';
+					// 	object.order_destinations[0].name = array.order_destinations[0].name;
+					// 	object.order_destinations[0].zipcode = array.order_destinations[0].zipcode;
+					// 	object.order_total.total = array.order_total.total;
+					// 	object.returned_date = array.returned_date ? array.returned_date : '';
+					// 	object.exchanged_date = array.exchanged_date ? array.exchanged_date : '';
+					// 	object.order_status.status_name = array.order_status.status_name;
+
+					// 	return object;
+					// };
+
+					console.time('requestCycle');
+
+					$http.get('/orders').then(function (res) {
+						// var result = res.data.map(vm.filterData);
+						// console.log(result);
+						// vm.orders = result;
+						vm.orders = res.data;
+					});
+				});
+		})();
+	</script>
+</body>
+</html>
